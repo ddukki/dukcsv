@@ -1,6 +1,6 @@
 # `dukCSV`
 
-`dukCSV` is a library that attempts to read CSV files efficiently using``
+`dukCSV` is a library that attempts to read CSV files efficiently using
 random-access patterns. This is a project born from a slight itch caused by
 trying to read 2GB+ CSV files from a database at work.
 
@@ -9,7 +9,7 @@ super performant. Just needed to do its job.
 
 ## Prior Art
 
-There are other projects out there that mmap CSV files (and this is heavily
+There are other projects out there that `mmap` CSV files (and this is heavily
 inspired by [one of them](https://github.com/carbocation/genomisc/tree/master/ramcsv)),
 but they were either lacking a key feature, or weren't exactly what I was
 looking for.
