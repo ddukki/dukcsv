@@ -1,4 +1,4 @@
-module dukcsv
+module github.com/ddukki/dukcsv
 
 go 1.20
 
