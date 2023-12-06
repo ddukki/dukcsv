@@ -123,8 +123,8 @@ func (rdr *Reader) read(line int64) ([]string, error) {
 	idx := line
 	nLines := len(rdr.offsets) - 1
 	if !rdr.HasHeader() {
-		idx -= 1
-		nLines += 1
+		idx--
+		nLines++
 	}
 
 	if line >= int64(nLines) {
@@ -145,6 +145,17 @@ func (rdr *Reader) read(line int64) ([]string, error) {
 	}
 
 	return SplitCSVLine(lb), nil
+}
+
+// Count returns the number of lines in the CSV file, not including the header,
+// if this file has one.
+func (rdr *Reader) Count() int64 {
+	nLines := len(rdr.offsets) - 1
+	if !rdr.HasHeader() {
+		nLines++
+	}
+
+	return int64(nLines)
 }
 
 // SplitCSVLine splits the single line into separate values, respecting quotes.
