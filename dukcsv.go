@@ -175,6 +175,8 @@ func SplitCSVLine(line []byte) []string {
 			if !q {
 				items = append(items, string(buf))
 				buf = buf[:0]
+			} else {
+				buf = append(buf, r)
 			}
 		case '\r', '\n':
 			if q {
