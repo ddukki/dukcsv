@@ -78,6 +78,12 @@ func (rdr *Reader) Close() error {
 	return rdr.file.Close()
 }
 
+// Header returns the header with the column names. If the CSV file was read
+// in without a header, then the default column names are returned.
+func (rdr *Reader) Header() []string {
+	return rdr.header
+}
+
 // HasHeader indicates whether the CSV was read in with a header row. Note:
 // the number of rows and the line indexes do not include the header row.
 func (rdr *Reader) HasHeader() bool {
@@ -163,12 +169,25 @@ func (rdr *Reader) Count() int64 {
 func SplitCSVLine(line []byte) []string {
 	items := make([]string, 0)
 	buf := make([]byte, 0, 32*1024)
+
+	last := len(line) - 1
+	for {
+		switch line[last] {
+		case '\n', '\r':
+			line = line[:last]
+			last--
+			continue
+		}
+
+		break
+	}
+
 	var q bool
-	for _, r := range line {
+	for i, r := range line {
 		switch r {
 		case '"':
 			q = !q
-			if !q {
+			if !q && i < last && line[i+1] != ',' {
 				buf = append(buf, r)
 			}
 		case ',':
